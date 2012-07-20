@@ -7,7 +7,9 @@ CImageSelector
 
 A very simple Yii extension (model-bound widget) for displaying and selecting images and mapping the filepath (or a portion of it) to a model attribute.
 
-For example, a directory on the web server contains a set of GIF images (image01.gif, image02.gif, etc.). When creating or editing a record, a part of the image filename (just the number: 01, 02, etc.) needs to be stored in the model. The widget lets the user browse the images and select the desired one.
+For example, you have a directory on the web server containing GIF images (image01.gif, image02.gif, etc.). When a user creates or edits a record, you want them to browse the images and select one and you want to store a part of the image filename (just the number: 01, 02, etc.) in the model's image_id attribute.
+
+Add the following code to the view:
 
    		Yii::import('application.extensions.CImageSelector.CImageSelector');
  			$this->widget('CImageSelector',array(
