@@ -4,13 +4,12 @@
  */
 
 var ImageSelector = function(initObj){
-	var id = ''; // id to assign to the image element
 	var images = []; // array of image paths	
 	var defaultSrc = ''; // default image path (must be in images collection)
 	var fieldId = ''; // ID of the form field to update with the path or a value (per attributeValuePattern)
 	var attributeValuePattern = ''; // regular expression whose first submatch (result[1]) is the value to put in the field
 	
-	var transitionEffect = null; // a jQuery effect to use transition in to a new image. (A function taking an imageHolder object)
+	var onChange = null; // a jQuery effect to use transition in to a new image. (A function taking an imageHolder object)
 	
 	return {
 		initialize : function(initObject){
@@ -18,7 +17,7 @@ var ImageSelector = function(initObj){
 			defaultSrc = initObject.defaultSrc;
 			fieldId = initObject.fieldId;
 			attributeValuePattern = initObject.attributeValuePattern;
-			transitionEffect = initObject.transitionEffect;
+			onChange = initObject.onChange;
 			
 			var parentElement = jQuery('#' + fieldId + '_imageSelector');
 			var buttonHolder = jQuery('#' + fieldId + '_buttonHolder');
@@ -28,37 +27,41 @@ var ImageSelector = function(initObj){
 			var imageHolder = parentElement.find('.image-selector-holder');
 			
 			var me = this;
-			buttonHolder.find('.previous-image').on('click', function(ev){
-				var currentPath = imageHolder.attr('src');
-				var ndx = me.getIndex(currentPath);
-				if(ndx !== false && ndx > 0){
-					var newSrc = images[ndx - 1];
-					me.updateField(newSrc);
-					if(!transitionEffect){
-						imageHolder.attr('src', newSrc);
-					}
-					else{
-						eval(transitionEffect);
-					}					
-				}
+			buttonHolder.find('.previous-image, .next-image').on('click', function(ev){
+				me.switchImage(me, jQuery(this), imageHolder);
 				return false;
 			});
+		},
+		
+		switchImage : function(me, trigger, image){
+			var newSrc = '';
+			var currentSrc = image.attr('src');
+			var newIndex = false;
+			var currentIndex = this.getIndex(currentSrc);
 			
-			buttonHolder.find('.next-image').on('click', function(ev){
-				var currentPath = imageHolder.attr('src');
-				var ndx = me.getIndex(currentPath);
-				if(ndx !== false && ndx + 1 < images.length){
-					var newSrc = images[ndx + 1];
-					me.updateField(newSrc);
-					if(!transitionEffect){
-						imageHolder.attr('src', newSrc);
-					}
-					else{
-						eval(transitionEffect);
-					}
-				}				
+			if(currentIndex === false){
 				return false;
-			});
+			}
+			
+			if(trigger.hasClass('previous-image') && currentIndex > 0){
+				newIndex = currentIndex - 1;				
+			}
+			else if(trigger.hasClass('next-image') && currentIndex + 1 < images.length){
+				newIndex = currentIndex + 1;
+			}
+			else{
+				return false;
+			}
+			newSrc = images[newIndex];
+			
+			me.updateField(newSrc);
+			if(!onChange){
+				image.attr('src', newSrc);
+			}
+			else{
+				eval(onChange);
+			}
+			return true;
 		},
 		
 		getIndex : function(imagePath){
