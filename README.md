@@ -31,7 +31,7 @@ Add the following code to the view:
  			));	
 
 The `options` array supports the following:
- * `images - (required) an array containing the image paths
+ * `images` - (required) an array containing the image paths
  * `attributeValuePattern` - (required) empty, or a regular expression containing a submatch that will be used to populate the attribute mapped to this field.
  * `defaultSrc` - (required) the path to the image that is displayed if the field doesn't contain a valid value. (Must exist in the images array.)
  * `onChange` - (optional) a string containing Javascript executed after the field value is changed and before the image is changed. It can be used to create a transition effect when changing images. (See http://api.jquery.com/category/effects/). Be sure to include:
