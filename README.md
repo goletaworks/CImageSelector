@@ -30,18 +30,18 @@ Add the following code to the view:
  					)
  			));	
 
-The _options_ array supports the following:
- * images - (required) an array containing the image paths
- * attributeValuePattern - (required) empty, or a regular expression containing a submatch that will be used to populate the attribute mapped to this field.
- * defaultSrc - (required) the path to the image that is displayed if the field doesn't contain a valid value. (Must exist in the images array.)
- * onChange - (optional) a string containing Javascript executed after the field value is changed and before the image is changed. It can be used to create a transition effect when changing images. (See http://api.jquery.com/category/effects/). Be sure to include:
-_image.attr("src", newSrc);_
+The `options` array supports the following:
+ * `images - (required) an array containing the image paths
+ * `attributeValuePattern` - (required) empty, or a regular expression containing a submatch that will be used to populate the attribute mapped to this field.
+ * `defaultSrc` - (required) the path to the image that is displayed if the field doesn't contain a valid value. (Must exist in the images array.)
+ * `onChange` - (optional) a string containing Javascript executed after the field value is changed and before the image is changed. It can be used to create a transition effect when changing images. (See http://api.jquery.com/category/effects/). Be sure to include:
+`image.attr("src", newSrc);`
 to switch to the new image.
-    In addition to the values in the _options_ array, the callback has access to the following:
-     * me - the ImageSelector javascript object 
-     * trigger - the jQuery object that triggered the transition (.next-image or .previous-image)
-     * image - the jQuery object containing the image element 
-     * newSrc - the path of the image transitioning into
-     * currentSrc - the current image
-     * newIndex - the index of the image in the array transitioning into
-     * currentIndex - the index of the current image 
+    In addition to the values in the `options` array, the callback has access to the following:
+     * `me` - the `ImageSelector` Javascript object 
+     * `trigger` - the jQuery object that triggered the transition (the `.next-image` or `.previous-image` button)
+     * `image` - the jQuery object containing the image element 
+     * `newSrc` - the path of the image transitioning into
+     * `currentSrc` - the current image
+     * `newIndex` - the index of the image in the array transitioning into
+     * `currentIndex` - the index of the current image 
