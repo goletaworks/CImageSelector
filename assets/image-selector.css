@@ -1,0 +1,24 @@
+/* CImageSelector styles */
+
+.image-selector-button-holder {
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+
+.image-selector-button-holder .previous-image, 
+.image-selector-button-holder .next-image {
+	margin-left: 5px;
+	margin-right: 0px;
+	padding: 5px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	border: 2px solid;
+	border-radius: 4px;
+	background-color: #eeeeee;
+	text-decoration: none;
+}
+
+.image-selector div img {
+	height: 75%;
+	width: 75%;
+}
