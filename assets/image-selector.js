@@ -5,11 +5,11 @@
 
 var ImageSelector = function(initObj){
 	var images = []; // array of image paths	
-	var defaultSrc = ''; // default image path (must be in images collection)
+	var defaultSrc = ''; // path of the image in the array to display on first load
 	var fieldId = ''; // ID of the form field to update with the path or a value (per attributeValuePattern)
 	var attributeValuePattern = ''; // regular expression whose first submatch (result[1]) is the value to put in the field
 	
-	var onChange = null; // a jQuery effect to use transition in to a new image. (A function taking an imageHolder object)
+	var onChange = null; // js code to execute when the widget image changes, e.g., a jQuery effect to use transition to a new image.
 	
 	return {
 		initialize : function(initObject){
@@ -22,22 +22,22 @@ var ImageSelector = function(initObj){
 			var parentElement = jQuery('#' + fieldId + '_imageSelector');
 			var buttonHolder = jQuery('#' + fieldId + '_buttonHolder');
 			
-			parentElement.append('<div><image class="image-selector-holder" ' +
-					'src="' + defaultSrc + '"/></div>');
-			var imageHolder = parentElement.find('.image-selector-holder');
+			parentElement.append('<div><image class="image-selector-holder"/></div>');
+			var image = parentElement.find('.image-selector-holder');
 			
 			var me = this;
 			buttonHolder.find('.previous-image, .next-image').on('click', function(ev){
-				me.switchImage(me, jQuery(this), imageHolder);
+				me.switchImage(me, jQuery(this), image);
 				return false;
 			});
+			
+			var defaultIndex = me.getIndex(defaultSrc);
+			me.setImage(me, image, defaultIndex, null);
 		},
 		
 		switchImage : function(me, trigger, image){
-			var newSrc = '';
-			var currentSrc = image.attr('src');
 			var newIndex = false;
-			var currentIndex = this.getIndex(currentSrc);
+			var currentIndex = this.getIndex(image.attr('src'));
 			
 			if(currentIndex === false){
 				return false;
@@ -52,7 +52,15 @@ var ImageSelector = function(initObj){
 			else{
 				return false;
 			}
-			newSrc = images[newIndex];
+				
+			me.setImage(me, image, newIndex, trigger);
+			return true;
+		},
+		
+		setImage : function(me, image, newIndex, trigger){
+			var currentSrc = image.attr('src');
+			var currentIndex = this.getIndex(currentSrc);
+			var newSrc = images[newIndex];
 			
 			me.updateField(newSrc);
 			if(!onChange){
@@ -60,8 +68,7 @@ var ImageSelector = function(initObj){
 			}
 			else{
 				eval(onChange);
-			}
-			return true;
+			}			
 		},
 		
 		getIndex : function(imagePath){
