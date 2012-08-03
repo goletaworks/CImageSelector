@@ -35,13 +35,16 @@ class CImageSelector extends CInputWidget {
 	 *  * images - an array containing the image paths
 	 *  * attributeValuePattern - empty, or a regular expression containing a submatch that
 	 * 	  will be used to populate the attribute mapped to this field.
-	 *  * defaultSrc - the path to the image that is displayed if the field doesn't 
+	 *  * defaultIndex - the index of the image in the images collection that is displayed if the field doesn't 
 	 * 	  contain a valid value.
 	 *  * onChange - (optional) a string containing Javascript executed after the field value is changed
 	 *    and before the image is changed. It can be used to create a transition effect when changing images. 
 	 *    (See http://api.jquery.com/category/effects/). Be sure to include:
 	 *         image.attr("src", newSrc);
 	 *    to switch to the new image.
+	 *  * onImagesUploaded - (optional) a string of Javascript executed to fetch new images as from an AJAX
+	 *    file uploader. It must return an array containing the images to be added.
+	 *    
 	 *    In addition to the values in the options array, the callback has access to the following:
 	 *     * me - the ImageSelector javascript object 
 	 *     * trigger - the jQuery object that triggered the transition (.next-image or .previous-image)
@@ -50,6 +53,7 @@ class CImageSelector extends CInputWidget {
 	 *	   * currentSrc - the current image
 	 *	   * newIndex - the index of the image in the array transitioning into
 	 *	   * currentIndex - the index of the current image 
+	 *	   * matchedValue - the part of the new image's filename that is stored in the form field 
 	 */
 	public $options;
 	
